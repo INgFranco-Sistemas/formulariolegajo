@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             LaborRegimeSeeder::class,
             PensionRegimeSeeder::class,
             FamilyRelationshipSeeder::class,
+            AdminUserSeeder::class,
         ]);
     }
 }

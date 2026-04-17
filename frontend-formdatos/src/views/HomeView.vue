@@ -4,6 +4,7 @@ import PublicLayout from '../layouts/PublicLayout.vue'
 import FormStepper from '../components/form/FormStepper.vue'
 import FormSectionCard from '../components/form/FormSectionCard.vue'
 import BaseButton from '../components/base/BaseButton.vue'
+import SuccessState from '../components/form/SuccessState.vue'
 import { useFormStore } from '../stores/formStore'
 import { useCatalogStore } from '../stores/catalogStore'
 
@@ -12,8 +13,6 @@ import StepContactData from '../components/form/steps/StepContactData.vue'
 import StepLaborData from '../components/form/steps/StepLaborData.vue'
 import StepFamilyData from '../components/form/steps/StepFamilyData.vue'
 import StepConfirmation from '../components/form/steps/StepConfirmation.vue'
-
-import SuccessState from '../components/form/SuccessState.vue'
 
 const formStore = useFormStore()
 const catalogStore = useCatalogStore()
@@ -53,11 +52,7 @@ onMounted(() => {
 })
 
 const handleSubmit = async () => {
-  const result = await formStore.submitForm()
-
-  if (result.success) {
-    // aquí luego podremos mostrar una pantalla de éxito más elegante
-  }
+  await formStore.submitForm()
 }
 
 const handleRestart = () => {

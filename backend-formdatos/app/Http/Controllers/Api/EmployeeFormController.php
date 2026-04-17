@@ -11,12 +11,26 @@ use App\Models\MaritalStatus;
 use App\Models\PensionRegime;
 use App\Models\Sex;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class EmployeeFormController extends Controller
 {
+    public function catalogs(): JsonResponse
+    {
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'sexes' => Sex::select('id', 'name', 'code')->orderBy('id')->get(),
+                'marital_statuses' => MaritalStatus::select('id', 'name', 'code')->orderBy('id')->get(),
+                'labor_regimes' => LaborRegime::select('id', 'name', 'code')->orderBy('id')->get(),
+                'pension_regimes' => PensionRegime::select('id', 'name', 'code')->orderBy('id')->get(),
+                'family_relationships' => FamilyRelationship::select('id', 'name', 'code')->orderBy('id')->get(),
+            ],
+        ]);
+    }
+
     public function checkDni(Request $request): JsonResponse
     {
         $request->validate([
@@ -36,20 +50,6 @@ class EmployeeFormController extends Controller
             'message' => $exists
                 ? 'Ya existe una ficha registrada con este DNI.'
                 : 'El DNI está disponible.',
-        ]);
-    }
-
-    public function catalogs(): JsonResponse
-    {
-        return response()->json([
-            'success' => true,
-            'data' => [
-                'sexes' => Sex::select('id', 'name', 'code')->orderBy('id')->get(),
-                'marital_statuses' => MaritalStatus::select('id', 'name', 'code')->orderBy('id')->get(),
-                'labor_regimes' => LaborRegime::select('id', 'name', 'code')->orderBy('id')->get(),
-                'pension_regimes' => PensionRegime::select('id', 'name', 'code')->orderBy('id')->get(),
-                'family_relationships' => FamilyRelationship::select('id', 'name', 'code')->orderBy('id')->get(),
-            ],
         ]);
     }
 
