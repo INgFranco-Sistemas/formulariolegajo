@@ -32,6 +32,7 @@ const maritalStatusOptions = computed(() => catalogStore.maritalStatuses)
 const laborRegimeOptions = computed(() => catalogStore.laborRegimes)
 const pensionRegimeOptions = computed(() => catalogStore.pensionRegimes)
 const relationshipOptions = computed(() => catalogStore.familyRelationships)
+const dependencyOptions = computed(() => catalogStore.dependencies)
 
 const addFamilyMember = () => {
     if (!formsStore.editItem) return
@@ -218,8 +219,13 @@ onMounted(async () => {
                             :error="formsStore.editErrors.current_position" />
 
                         <div class="md:col-span-2">
-                            <BaseInput v-model="form.current_dependency" label="Dependencia actual"
-                                placeholder="Ingrese dependencia" :error="formsStore.editErrors.current_dependency" />
+                            <BaseSelect
+                                v-model="form.dependency_id"
+                                label="Dependencia actual"
+                                :options="dependencyOptions"
+                                placeholder="Seleccione la dependencia actual"
+                                :error="formsStore.editErrors.dependency_id"
+                            />
                         </div>
 
                         <BaseInput v-model="form.contract_resolution_number" label="Contrato o Resolución"

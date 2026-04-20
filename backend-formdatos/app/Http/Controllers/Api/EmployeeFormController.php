@@ -9,6 +9,7 @@ use App\Models\FamilyRelationship;
 use App\Models\LaborRegime;
 use App\Models\MaritalStatus;
 use App\Models\PensionRegime;
+use App\Models\Dependency;
 use App\Models\Sex;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -27,6 +28,7 @@ class EmployeeFormController extends Controller
                 'labor_regimes' => LaborRegime::select('id', 'name', 'code')->orderBy('id')->get(),
                 'pension_regimes' => PensionRegime::select('id', 'name', 'code')->orderBy('id')->get(),
                 'family_relationships' => FamilyRelationship::select('id', 'name', 'code')->orderBy('id')->get(),
+                'dependencies' => Dependency::select('id', 'name', 'code')->where('is_active', true)->orderBy('name')->get(),
             ],
         ]);
     }
@@ -89,10 +91,19 @@ class EmployeeFormController extends Controller
                 'data' => $employeeForm,
             ], 201);
         } catch (Throwable $e) {
+            \Log::error('ERROR AL REGISTRAR FICHA', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
             return response()->json([
                 'success' => false,
                 'message' => 'Ocurrió un error al registrar la ficha.',
-                'error' => app()->environment('local') ? $e->getMessage() : null,
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
             ], 500);
         }
     }

@@ -34,6 +34,7 @@ export const useFormStore = defineStore('form', () => {
     emergency_contact_phone: '',
     profession: '',
     current_position: '',
+    dependency_id: '',
     current_dependency: '',
     contract_resolution_number: '',
     employment_start_date: '',
@@ -193,8 +194,8 @@ export const useFormStore = defineStore('form', () => {
       setError('current_position', 'El cargo actual es obligatorio.')
     }
 
-    if (!form.value.current_dependency?.trim()) {
-      setError('current_dependency', 'La dependencia actual es obligatoria.')
+    if (!form.value.dependency_id) {
+      setError('dependency_id', 'Debe seleccionar la dependencia actual.')
     }
 
     if (!form.value.contract_resolution_number?.trim()) {
@@ -362,8 +363,8 @@ export const useFormStore = defineStore('form', () => {
       tempSetError('current_position', 'El cargo actual es obligatorio.')
     }
 
-    if (!form.value.current_dependency?.trim()) {
-      tempSetError('current_dependency', 'La dependencia actual es obligatoria.')
+    if (!form.value.dependency_id) {
+      tempSetError('dependency_id', 'Debe seleccionar la dependencia actual.')
     }
 
     if (!form.value.contract_resolution_number?.trim()) {
@@ -424,6 +425,11 @@ export const useFormStore = defineStore('form', () => {
   const nextStep = async () => {
     const isValid = validateStep(currentStep.value)
 
+    console.log('STEP ACTUAL:', currentStep.value)
+    console.log('VALIDO:', isValid)
+    console.log('ERRORES:', errors.value)
+    console.log('FORM DATA:', form.value)
+
     if (!isValid) return false
 
     if (currentStep.value === 1) {
@@ -453,6 +459,7 @@ export const useFormStore = defineStore('form', () => {
       ...form.value,
       sex_id: form.value.sex_id ? Number(form.value.sex_id) : null,
       marital_status_id: form.value.marital_status_id ? Number(form.value.marital_status_id) : null,
+      dependency_id: form.value.dependency_id ? Number(form.value.dependency_id) : null,
       labor_regime_id: form.value.labor_regime_id ? Number(form.value.labor_regime_id) : null,
       pension_regime_id: form.value.pension_regime_id ? Number(form.value.pension_regime_id) : null,
       family_members: form.value.family_members.map((member) => ({
@@ -486,6 +493,7 @@ export const useFormStore = defineStore('form', () => {
       emergency_contact_phone: '',
       profession: '',
       current_position: '',
+      dependency_id: '',
       current_dependency: '',
       contract_resolution_number: '',
       employment_start_date: '',

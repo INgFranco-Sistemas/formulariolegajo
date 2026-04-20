@@ -97,7 +97,7 @@ const formatBoolean = (value) => {
                 <div class="space-y-2 text-sm text-slate-700">
                 <p><span class="font-semibold">Profesión:</span> {{ item.profession || '-' }}</p>
                 <p><span class="font-semibold">Cargo actual:</span> {{ item.current_position || '-' }}</p>
-                <p><span class="font-semibold">Dependencia actual:</span> {{ item.current_dependency || '-' }}</p>
+                <p><span class="font-semibold">Dependencia actual:</span> {{ item.dependency?.name || '-' }}</p>
                 <p><span class="font-semibold">Contrato o resolución:</span> {{ item.contract_resolution_number || '-' }}</p>
                 <p><span class="font-semibold">Fecha de vínculo:</span> {{ item.employment_start_date || '-' }}</p>
                 <p><span class="font-semibold">Régimen laboral:</span> {{ item.labor_regime?.name || '-' }}</p>

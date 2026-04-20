@@ -29,6 +29,7 @@ class EmployeeForm extends Model
         'emergency_contact_phone',
         'profession',
         'current_position',
+        'dependency_id',
         'current_dependency',
         'contract_resolution_number',
         'employment_start_date',
@@ -79,5 +80,10 @@ class EmployeeForm extends Model
     public function familyMembers(): HasMany
     {
         return $this->hasMany(EmployeeFormFamilyMember::class);
+    }
+
+    public function dependency(): BelongsTo
+    {
+        return $this->belongsTo(Dependency::class);
     }
 }

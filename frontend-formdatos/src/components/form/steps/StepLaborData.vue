@@ -19,6 +19,10 @@ defineProps({
     type: Array,
     default: () => [],
   },
+  dependencyOptions: {
+    type: Array,
+    default: () => [],
+  },
 })
 </script>
 
@@ -39,11 +43,12 @@ defineProps({
     />
 
     <div class="md:col-span-2">
-      <BaseInput
-        v-model="form.current_dependency"
+      <BaseSelect
+        v-model="form.dependency_id"
         label="Dependencia actual"
-        placeholder="Ingrese su dependencia actual"
-        :error="errors.current_dependency"
+        :options="dependencyOptions"
+        placeholder="Seleccione la dependencia actual"
+        :error="errors.dependency_id"
       />
     </div>
 

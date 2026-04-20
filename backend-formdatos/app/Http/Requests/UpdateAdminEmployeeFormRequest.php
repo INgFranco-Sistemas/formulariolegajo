@@ -48,7 +48,8 @@ class UpdateAdminEmployeeFormRequest extends FormRequest
 
             'profession' => ['required', 'string', 'max:255'],
             'current_position' => ['required', 'string', 'max:255'],
-            'current_dependency' => ['required', 'string', 'max:255'],
+            'dependency_id' => ['required', 'integer', 'exists:dependencies,id'],
+            'current_dependency' => ['nullable', 'string', 'max:255'],
             'contract_resolution_number' => ['required', 'string', 'max:100'],
             'employment_start_date' => ['required', 'date'],
 

@@ -24,6 +24,10 @@ defineProps({
     type: Array,
     default: () => [],
   },
+  dependencyOptions: {
+    type: Array,
+    default: () => [],
+  },
 })
 
 const findOptionName = (options, value) => {
@@ -73,7 +77,7 @@ const findOptionName = (options, value) => {
         <div class="space-y-2 text-sm text-slate-700">
           <p><span class="font-semibold">Profesión:</span> {{ form.profession || '-' }}</p>
           <p><span class="font-semibold">Cargo actual:</span> {{ form.current_position || '-' }}</p>
-          <p><span class="font-semibold">Dependencia:</span> {{ form.current_dependency || '-' }}</p>
+          <p><span class="font-semibold">Dependencia:</span> {{ findOptionName(dependencyOptions, form.dependency_id) }}</p>
           <p><span class="font-semibold">Contrato/Resolución:</span> {{ form.contract_resolution_number || '-' }}</p>
           <p><span class="font-semibold">Fecha de vínculo:</span> {{ form.employment_start_date || '-' }}</p>
           <p><span class="font-semibold">Régimen laboral:</span> {{ findOptionName(laborRegimeOptions, form.labor_regime_id) }}</p>

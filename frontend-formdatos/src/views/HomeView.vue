@@ -19,6 +19,7 @@ const catalogStore = useCatalogStore()
 
 const sexOptions = computed(() => catalogStore.sexes)
 const maritalStatusOptions = computed(() => catalogStore.maritalStatuses)
+const dependencyOptions = computed(() => catalogStore.dependencies)
 const laborRegimeOptions = computed(() => catalogStore.laborRegimes)
 const pensionRegimeOptions = computed(() => catalogStore.pensionRegimes)
 const relationshipOptions = computed(() => catalogStore.familyRelationships)
@@ -144,6 +145,7 @@ const handleNextStep = async () => {
               :errors="formStore.errors"
               :labor-regime-options="laborRegimeOptions"
               :pension-regime-options="pensionRegimeOptions"
+              :dependency-options="dependencyOptions"
             />
 
             <StepFamilyData
@@ -162,6 +164,7 @@ const handleNextStep = async () => {
               :labor-regime-options="laborRegimeOptions"
               :pension-regime-options="pensionRegimeOptions"
               :relationship-options="relationshipOptions"
+              :dependency-options="dependencyOptions"
             />
 
             <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-between">

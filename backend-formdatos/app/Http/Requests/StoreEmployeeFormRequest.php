@@ -42,7 +42,8 @@ class StoreEmployeeFormRequest extends FormRequest
 
             'profession' => ['required', 'string', 'max:255'],
             'current_position' => ['required', 'string', 'max:255'],
-            'current_dependency' => ['required', 'string', 'max:255'],
+            'dependency_id' => ['required', 'integer', 'exists:dependencies,id'],
+            'current_dependency' => ['nullable', 'string', 'max:255'],
             'contract_resolution_number' => ['required', 'string', 'max:100'],
             'employment_start_date' => ['required', 'date'],
 
@@ -112,7 +113,8 @@ class StoreEmployeeFormRequest extends FormRequest
 
             'profession.required' => 'La profesión es obligatoria.',
             'current_position.required' => 'El cargo actual es obligatorio.',
-            'current_dependency.required' => 'La dependencia actual es obligatoria.',
+            'dependency_id.required' => 'Debe seleccionar la dependencia actual.',
+            'dependency_id.exists' => 'La dependencia seleccionada no es válida.',
             'contract_resolution_number.required' => 'El contrato o resolución es obligatorio.',
             'employment_start_date.required' => 'La fecha de vínculo es obligatoria.',
 
