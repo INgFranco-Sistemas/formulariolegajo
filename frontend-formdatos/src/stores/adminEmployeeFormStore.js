@@ -6,6 +6,20 @@ import {
     updateAdminEmployeeForm,
 } from '../services/adminEmployeeFormService'
 
+const formatDateForInput = (value) => {
+    if (!value) return ''
+
+    const stringValue = String(value)
+
+    // Si viene como 2026-04-20T00:00:00.000000Z
+    if (stringValue.includes('T')) {
+        return stringValue.split('T')[0]
+    }
+
+    // Si ya viene como YYYY-MM-DD
+    return stringValue
+}
+
 export const useAdminEmployeeFormStore = defineStore('adminEmployeeForms', () => {
     const items = ref([])
     const loading = ref(false)
@@ -83,64 +97,65 @@ export const useAdminEmployeeFormStore = defineStore('adminEmployeeForms', () =>
     }
 
     const fetchEditableFormById = async (id) => {
-        editLoading.value = true
-        editError.value = ''
-        editSuccess.value = ''
-        editErrors.value = {}
+    editLoading.value = true
+    editError.value = ''
+    editSuccess.value = ''
+    editErrors.value = {}
 
     try {
         const response = await getAdminEmployeeFormById(id)
         const item = response.data
 
         editItem.value = {
-            id: item.id,
-            full_name: item.full_name ?? '',
-            dni: item.dni ?? '',
-            ruc: item.ruc ?? '',
-            sex_id: item.sex_id ?? '',
-            marital_status_id: item.marital_status_id ?? '',
-            birth_date: item.birth_date ?? '',
-            birth_place: item.birth_place ?? '',
-            has_disability: item.has_disability ?? false,
-            conadis_rui: item.conadis_rui ?? '',
-            address: item.address ?? '',
-            reference: item.reference ?? '',
-            district: item.district ?? '',
-            province: item.province ?? '',
-            department: item.department ?? '',
-            cellphone: item.cellphone ?? '',
-            personal_email: item.personal_email ?? '',
-            emergency_contact_name: item.emergency_contact_name ?? '',
-            emergency_contact_phone: item.emergency_contact_phone ?? '',
-            profession: item.profession ?? '',
-            current_position: item.current_position ?? '',
-            current_dependency: item.current_dependency ?? '',
-            contract_resolution_number: item.contract_resolution_number ?? '',
-            employment_start_date: item.employment_start_date ?? '',
-            labor_regime_id: item.labor_regime_id ?? '',
-            labor_condition: item.labor_condition ?? '',
-            pension_regime_id: item.pension_regime_id ?? '',
-            airshsp_code: item.airshsp_code ?? '',
-            institutional_email: item.institutional_email ?? '',
-            has_labor_link: item.has_labor_link ?? true,
-            labor_end_date: item.labor_end_date ?? '',
-            is_parent: item.is_parent ?? false,
-            family_members: (item.family_members ?? []).map((member) => ({
+        id: item.id,
+        full_name: item.full_name ?? '',
+        dni: item.dni ?? '',
+        ruc: item.ruc ?? '',
+        sex_id: item.sex_id ?? '',
+        marital_status_id: item.marital_status_id ?? '',
+        birth_date: formatDateForInput(item.birth_date),
+        birth_place: item.birth_place ?? '',
+        has_disability: item.has_disability ?? false,
+        conadis_rui: item.conadis_rui ?? '',
+        address: item.address ?? '',
+        reference: item.reference ?? '',
+        district: item.district ?? '',
+        province: item.province ?? '',
+        department: item.department ?? '',
+        cellphone: item.cellphone ?? '',
+        personal_email: item.personal_email ?? '',
+        emergency_contact_name: item.emergency_contact_name ?? '',
+        emergency_contact_phone: item.emergency_contact_phone ?? '',
+        profession: item.profession ?? '',
+        current_position: item.current_position ?? '',
+        dependency_id: item.dependency_id ?? item.dependency?.id ?? '',
+        current_dependency: item.current_dependency ?? item.dependency?.name ?? '',
+        contract_resolution_number: item.contract_resolution_number ?? '',
+        employment_start_date: formatDateForInput(item.employment_start_date),
+        labor_regime_id: item.labor_regime_id ?? '',
+        labor_condition: item.labor_condition ?? '',
+        pension_regime_id: item.pension_regime_id ?? '',
+        airshsp_code: item.airshsp_code ?? '',
+        institutional_email: item.institutional_email ?? '',
+        has_labor_link: item.has_labor_link ?? true,
+        labor_end_date: formatDateForInput(item.labor_end_date),
+        is_parent: item.is_parent ?? false,
+        family_members: (item.family_members ?? []).map((member) => ({
             full_name: member.full_name ?? '',
             dni: member.dni ?? '',
             age: member.age ?? '',
             sex_id: member.sex_id ?? '',
             relationship_id: member.relationship_id ?? '',
-            })),
+        })),
         }
         } catch (err) {
-        editError.value =
+            editError.value =
             err?.response?.data?.message ||
             'No se pudo cargar la ficha para edición.'
         } finally {
-        editLoading.value = false
-        }
+            editLoading.value = false
     }
+}
 
     const normalizeEditPayload = () => {
         if (!editItem.value) return null

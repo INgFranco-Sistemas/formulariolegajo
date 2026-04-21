@@ -59,9 +59,9 @@ class AdminEmployeeFormController extends Controller
             'maritalStatus:id,name,code',
             'laborRegime:id,name,code',
             'pensionRegime:id,name,code',
+            'dependency:id,name,code',
             'familyMembers.sex:id,name,code',
             'familyMembers.relationship:id,name,code',
-            'dependency:id,name,code',
         ])->findOrFail($id);
 
         return response()->json([

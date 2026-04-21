@@ -145,8 +145,12 @@ onMounted(async () => {
                             :options="maritalStatusOptions" placeholder="Seleccione el estado civil"
                             :error="formsStore.editErrors.marital_status_id" />
 
-                        <BaseInput v-model="form.birth_date" type="date" label="Fecha de nacimiento"
-                            :error="formsStore.editErrors.birth_date" />
+                        <BaseInput
+                            v-model="form.birth_date"
+                            type="date"
+                            label="Fecha de nacimiento"
+                            :error="formsStore.editErrors.birth_date"
+                        />
 
                         <BaseInput v-model="form.birth_place" label="Lugar de nacimiento"
                             placeholder="Ingrese lugar de nacimiento" :error="formsStore.editErrors.birth_place" />
@@ -232,8 +236,12 @@ onMounted(async () => {
                             placeholder="Ingrese contrato o resolución"
                             :error="formsStore.editErrors.contract_resolution_number" />
 
-                        <BaseInput v-model="form.employment_start_date" type="date" label="Fecha de vínculo"
-                            :error="formsStore.editErrors.employment_start_date" />
+                        <BaseInput
+                            v-model="form.employment_start_date"
+                            type="date"
+                            label="Fecha de vínculo"
+                            :error="formsStore.editErrors.employment_start_date"
+                        />
 
                         <BaseSelect v-model="form.labor_regime_id" label="Régimen laboral" :options="laborRegimeOptions"
                             placeholder="Seleccione régimen laboral" :error="formsStore.editErrors.labor_regime_id" />
@@ -257,8 +265,13 @@ onMounted(async () => {
                             { id: false, name: 'No tiene' }
                         ]" placeholder="Seleccione una opción" :error="formsStore.editErrors.has_labor_link" />
 
-                        <BaseInput v-if="form.has_labor_link === false" v-model="form.labor_end_date" type="date"
-                            label="Fecha de fin de vínculo" :error="formsStore.editErrors.labor_end_date" />
+                        <BaseInput
+                            v-if="form.has_labor_link === false"
+                            v-model="form.labor_end_date"
+                            type="date"
+                            label="Fecha de fin de vínculo"
+                            :error="formsStore.editErrors.labor_end_date"
+                        />
                     </div>
                 </section>
 
