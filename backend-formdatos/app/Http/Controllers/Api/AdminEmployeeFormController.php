@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exports\EmployeeFormsExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateAdminEmployeeFormRequest;
 use App\Models\EmployeeForm;
@@ -11,6 +13,12 @@ use Illuminate\Support\Facades\DB;
 
 class AdminEmployeeFormController extends Controller
 {
+    public function exportExcel()
+    {
+        $fileName = 'trabajadores_' . now()->format('Ymd_His') . '.xlsx';
+        return Excel::download(new EmployeeFormsExport, $fileName);
+    }
+
     public function index(Request $request): JsonResponse
     {
         $query = EmployeeForm::query()

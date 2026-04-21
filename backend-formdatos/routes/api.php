@@ -18,5 +18,6 @@ Route::prefix('admin')->group(function () {
         Route::get('/employee-forms', [AdminEmployeeFormController::class, 'index']);
         Route::get('/employee-forms/{id}', [AdminEmployeeFormController::class, 'show']);
         Route::put('/employee-forms/{id}', [AdminEmployeeFormController::class, 'update']);
+        Route::get('/employee-forms-export', [AdminEmployeeFormController::class, 'exportExcel']);
     });
 });
