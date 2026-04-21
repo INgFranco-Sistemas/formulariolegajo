@@ -47,6 +47,26 @@ class EmployeeForm extends Model
         'user_agent',
     ];
 
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            self::convertToUpper($model);
+        });
+
+        static::updating(function ($model) {
+            self::convertToUpper($model);
+        });
+    }
+
+    private static function convertToUpper($model)
+    {
+        foreach ($model->getAttributes() as $key => $value) {
+            if (is_string($value)) {
+                $model->$key = mb_strtoupper($value, 'UTF-8');
+            }
+        }
+    }
+
     protected $casts = [
         'birth_date' => 'date',
         'has_disability' => 'boolean',
