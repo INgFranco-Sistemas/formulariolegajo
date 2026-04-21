@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import {
+    exportAdminEmployeeFormsExcel,
     getAdminEmployeeFormById,
     getAdminEmployeeForms,
     updateAdminEmployeeForm,
@@ -17,13 +18,16 @@ const formatDateForInput = (value) => {
     }
 
     // Si ya viene como YYYY-MM-DD
-    return stringValue
-}
+    return stringValue}
+
 
 export const useAdminEmployeeFormStore = defineStore('adminEmployeeForms', () => {
     const items = ref([])
     const loading = ref(false)
     const error = ref('')
+    
+    const exportLoading = ref(false)
+    const exportError = ref('')
 
     const selectedItem = ref(null)
     const detailLoading = ref(false)
@@ -208,6 +212,49 @@ export const useAdminEmployeeFormStore = defineStore('adminEmployeeForms', () =>
         }
     }
 
+    const exportExcel = async () => {
+        exportLoading.value = true
+        exportError.value = ''
+
+        try {
+            const response = await exportAdminEmployeeFormsExcel()
+
+            const blob = new Blob([response.data], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            })
+
+            const url = window.URL.createObjectURL(blob)
+            const link = document.createElement('a')
+            link.href = url
+
+            const disposition = response.headers['content-disposition']
+            let fileName = 'trabajadores.xlsx'
+
+            if (disposition) {
+                const match = disposition.match(/filename="?([^"]+)"?/)
+                if (match?.[1]) {
+                    fileName = match[1]
+                }
+            }
+
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+            link.remove()
+            window.URL.revokeObjectURL(url)
+
+            return { success: true }
+        } catch (err) {
+            exportError.value =
+                err?.response?.data?.message ||
+                'No se pudo exportar el archivo Excel.'
+
+            return { success: false }
+        } finally {
+            exportLoading.value = false
+        }
+    }
+
     const closeDetail = () => {
         detailOpen.value = false
         selectedItem.value = null
@@ -243,6 +290,9 @@ export const useAdminEmployeeFormStore = defineStore('adminEmployeeForms', () =>
         items,
         loading,
         error,
+        exportLoading,
+        exportError,
+        exportExcel,
         selectedItem,
         detailLoading,
         detailError,

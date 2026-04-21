@@ -19,6 +19,10 @@ const handleLogout = async () => {
     router.push('/login')
 }
 
+const handleExportExcel = async () => {
+    await formsStore.exportExcel()
+}
+
 const handleSearch = async () => {
     formsStore.setSearch(searchInput.value)
     await formsStore.fetchForms()
@@ -61,20 +65,17 @@ watch(
     <main class="min-h-screen bg-slate-100">
         <section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div class="rounded-[2rem] bg-white p-8 shadow-xl ring-1 ring-slate-200">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-                <p class="text-sm font-medium text-slate-500">Panel administrativo</p>
-                <h1 class="mt-1 text-3xl font-bold text-slate-900">
-                Bienvenido, {{ authStore.admin?.name || 'Administrador' }}
-                </h1>
-                <p class="mt-2 text-sm text-slate-600">
-                Revise y administre la información registrada por el personal.
-                </p>
-            </div>
+            <div class="flex flex-col gap-3 sm:flex-row">
+                <BaseButton
+                    :disabled="formsStore.exportLoading"
+                    @click="handleExportExcel"
+                >
+                    {{ formsStore.exportLoading ? 'Generando Excel...' : 'Excel' }}
+                </BaseButton>
 
-            <BaseButton variant="secondary" @click="handleLogout">
-                Cerrar sesión
-            </BaseButton>
+                <BaseButton variant="secondary" @click="handleLogout">
+                    Cerrar sesión
+                </BaseButton>
             </div>
 
             <div
@@ -85,23 +86,23 @@ watch(
             </div>
 
             <div class="mt-8 grid gap-4 lg:grid-cols-[1fr_auto_auto]">
-            <BaseInput
-                v-model="searchInput"
-                label="Buscar ficha"
-                placeholder="Buscar por DNI, nombre o correo"
-            />
+                <BaseInput
+                    v-model="searchInput"
+                    label="Buscar ficha"
+                    placeholder="Buscar por DNI, nombre o correo"
+                />
 
-            <div class="self-end">
-                <BaseButton @click="handleSearch">
-                Buscar
-                </BaseButton>
-            </div>
+                <div class="self-end">
+                    <BaseButton @click="handleSearch">
+                    Buscar
+                    </BaseButton>
+                </div>
 
-            <div class="self-end">
-                <BaseButton variant="secondary" @click="handleClearSearch">
-                Limpiar
-                </BaseButton>
-            </div>
+                <div class="self-end">
+                    <BaseButton variant="secondary" @click="handleClearSearch">
+                    Limpiar
+                    </BaseButton>
+                </div>
             </div>
 
             <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
