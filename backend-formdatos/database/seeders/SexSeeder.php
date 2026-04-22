@@ -9,19 +9,18 @@ class SexSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('sexes')->insert([
-            [
-                'name' => 'Femenino',
-                'code' => 'F',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Masculino',
-                'code' => 'M',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        foreach ([
+            ['name' => 'Femenino', 'code' => 'F'],
+            ['name' => 'Masculino', 'code' => 'M'],
+        ] as $sex) {
+            DB::table('sexes')->updateOrInsert(
+                ['code' => $sex['code']],
+                [
+                    'name' => $sex['name'],
+                    'updated_at' => now(),
+                    'created_at' => now(),
+                ]
+            );
+        }
     }
 }

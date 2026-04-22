@@ -1,0 +1,8 @@
+.git
+.gitignore
+.DS_Store
+backend-formdatos/.env
+backend-formdatos/vendor
+backend-formdatos/node_modules
+frontend-formdatos/node_modules
+frontend-formdatos/dist

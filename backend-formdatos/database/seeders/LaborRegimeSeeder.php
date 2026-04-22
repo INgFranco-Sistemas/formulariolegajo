@@ -9,31 +9,20 @@ class LaborRegimeSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('labor_regimes')->insert([
-            [
-                'name' => 'DL 1057',
-                'code' => 'DL1057',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'DL 276',
-                'code' => 'DL276',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'DL 728',
-                'code' => 'DL728',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'SERVIR',
-                'code' => 'SERVIR',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        foreach ([
+            ['name' => 'DL 1057', 'code' => 'DL1057'],
+            ['name' => 'DL 276', 'code' => 'DL276'],
+            ['name' => 'DL 728', 'code' => 'DL728'],
+            ['name' => 'SERVIR', 'code' => 'SERVIR'],
+        ] as $regime) {
+            DB::table('labor_regimes')->updateOrInsert(
+                ['code' => $regime['code']],
+                [
+                    'name' => $regime['name'],
+                    'updated_at' => now(),
+                    'created_at' => now(),
+                ]
+            );
+        }
     }
 }

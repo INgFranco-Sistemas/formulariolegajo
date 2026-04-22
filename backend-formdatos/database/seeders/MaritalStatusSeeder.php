@@ -9,37 +9,21 @@ class MaritalStatusSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('marital_statuses')->insert([
-            [
-                'name' => 'Soltero(a)',
-                'code' => 'SOLTERO',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Casado(a)',
-                'code' => 'CASADO',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Viudo(a)',
-                'code' => 'VIUDO',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Separado/Divorciado(a)',
-                'code' => 'DIVORCIADO',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Conviviente',
-                'code' => 'CONVIVIENTE',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        foreach ([
+            ['name' => 'Soltero(a)', 'code' => 'SOLTERO'],
+            ['name' => 'Casado(a)', 'code' => 'CASADO'],
+            ['name' => 'Viudo(a)', 'code' => 'VIUDO'],
+            ['name' => 'Separado/Divorciado(a)', 'code' => 'DIVORCIADO'],
+            ['name' => 'Conviviente', 'code' => 'CONVIVIENTE'],
+        ] as $status) {
+            DB::table('marital_statuses')->updateOrInsert(
+                ['code' => $status['code']],
+                [
+                    'name' => $status['name'],
+                    'updated_at' => now(),
+                    'created_at' => now(),
+                ]
+            );
+        }
     }
 }
