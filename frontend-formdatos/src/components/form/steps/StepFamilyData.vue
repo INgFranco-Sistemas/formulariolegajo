@@ -3,6 +3,8 @@ import BaseButton from '../../base/BaseButton.vue'
 import BaseInput from '../../base/BaseInput.vue'
 import BaseSelect from '../../base/BaseSelect.vue'
 
+const toUpper = (value) => value?.toUpperCase() || ''
+
 const props = defineProps({
   form: {
     type: Object,
@@ -90,7 +92,8 @@ const removeFamilyMember = (index) => {
         <div class="grid gap-5 md:grid-cols-2">
           <div class="md:col-span-2">
             <BaseInput
-              v-model="member.full_name"
+              :modelValue="member.full_name"
+              @update:modelValue="member.full_name = toUpper($event)"
               label="Nombres y apellidos"
               placeholder="Ingrese nombres y apellidos"
               :error="errors[`family_members.${index}.full_name`]"

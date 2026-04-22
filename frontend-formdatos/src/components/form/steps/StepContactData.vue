@@ -4,6 +4,8 @@ import BaseInput from '../../base/BaseInput.vue'
 import BaseSelect from '../../base/BaseSelect.vue'
 import { useUbigeo } from '../../../composables/useUbigeo'
 
+const toUpper = (value) => value?.toUpperCase() || ''
+
 const props = defineProps({
   form: {
     type: Object,
@@ -45,7 +47,8 @@ onMounted(async () => {
     <div class="grid gap-5 md:grid-cols-2">
       <div class="md:col-span-2">
         <BaseInput
-          v-model="form.address"
+          :modelValue="form.address"
+          @update:modelValue="form.address = toUpper($event)"
           label="Domicilio o dirección actual"
           placeholder="Ingrese su dirección actual"
           :error="errors.address"
@@ -54,7 +57,8 @@ onMounted(async () => {
 
       <div class="md:col-span-2">
         <BaseInput
-          v-model="form.reference"
+          :modelValue="form.reference"
+          @update:modelValue="form.reference = toUpper($event)"
           label="Referencia"
           placeholder="Ingrese una referencia"
           :error="errors.reference"
@@ -99,7 +103,8 @@ onMounted(async () => {
 
       <div class="md:col-span-2">
         <BaseInput
-          v-model="form.personal_email"
+          :modelValue="form.personal_email"
+          @update:modelValue="form.personal_email = toUpper($event)"
           type="email"
           label="Correo personal"
           placeholder="usuario@ejemplo.com"
@@ -108,7 +113,8 @@ onMounted(async () => {
       </div>
 
       <BaseInput
-        v-model="form.emergency_contact_name"
+        :modelValue="form.emergency_contact_name"
+        @update:modelValue="form.emergency_contact_name = toUpper($event)"
         label="Contacto en caso de emergencia"
         placeholder="Ingrese el nombre del contacto"
         :error="errors.emergency_contact_name"

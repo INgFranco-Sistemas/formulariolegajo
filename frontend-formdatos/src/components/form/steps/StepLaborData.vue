@@ -2,6 +2,8 @@
 import BaseInput from '../../base/BaseInput.vue'
 import BaseSelect from '../../base/BaseSelect.vue'
 
+const toUpper = (value) => value?.toUpperCase() || ''
+
 defineProps({
   form: {
     type: Object,
@@ -29,14 +31,16 @@ defineProps({
 <template>
   <div class="grid gap-5 md:grid-cols-2">
     <BaseInput
-      v-model="form.profession"
+      :modelValue="form.profession"
+      @update:modelValue="form.profession = toUpper($event)"
       label="Profesión"
       placeholder="Ingrese su profesión"
       :error="errors.profession"
     />
 
     <BaseInput
-      v-model="form.current_position"
+      :modelValue="form.current_position"
+      @update:modelValue="form.current_position = toUpper($event)"
       label="Cargo actual"
       placeholder="Ingrese su cargo actual"
       :error="errors.current_position"
@@ -53,7 +57,8 @@ defineProps({
     </div>
 
     <BaseInput
-      v-model="form.contract_resolution_number"
+      :modelValue="form.contract_resolution_number"
+      @update:modelValue="form.contract_resolution_number = toUpper($event)"
       label="Contrato o Resolución N°"
       placeholder="Ingrese el contrato o resolución"
       :error="errors.contract_resolution_number"
@@ -75,7 +80,8 @@ defineProps({
     />
 
     <BaseInput
-      v-model="form.labor_condition"
+      :modelValue="form.labor_condition"
+      @update:modelValue="form.labor_condition = toUpper($event)"
       label="Condición laboral"
       placeholder="Ingrese la condición laboral"
       :error="errors.labor_condition"
@@ -90,14 +96,16 @@ defineProps({
     />
 
     <BaseInput
-      v-model="form.airshsp_code"
+      :modelValue="form.airshsp_code"
+      @update:modelValue="form.airshsp_code = toUpper($event)"
       label="Código AIRSHSP"
       placeholder="Ingrese el código"
       :error="errors.airshsp_code"
     />
 
     <BaseInput
-      v-model="form.institutional_email"
+      :modelValue="form.institutional_email"
+      @update:modelValue="form.institutional_email = toUpper($event)"
       type="email"
       label="Correo institucional"
       placeholder="usuario@institucion.gob.pe"

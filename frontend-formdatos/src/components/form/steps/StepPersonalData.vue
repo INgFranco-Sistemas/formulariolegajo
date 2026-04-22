@@ -2,6 +2,8 @@
 import BaseInput from '../../base/BaseInput.vue'
 import BaseSelect from '../../base/BaseSelect.vue'
 
+const toUpper = (value) => value?.toUpperCase() || ''
+
 defineProps({
   form: {
     type: Object,
@@ -26,7 +28,8 @@ defineProps({
   <div class="grid gap-5 md:grid-cols-2">
     <div class="md:col-span-2">
       <BaseInput
-        v-model="form.full_name"
+        :modelValue="form.full_name"
+        @update:modelValue="form.full_name = toUpper($event)"
         label="Apellidos y nombres"
         placeholder="Ingrese sus apellidos y nombres"
         :error="errors.full_name"
@@ -71,7 +74,8 @@ defineProps({
     />
 
     <BaseInput
-      v-model="form.birth_place"
+      :modelValue="form.birth_place"
+      @update:modelValue="form.birth_place = toUpper($event)"
       label="Lugar de nacimiento"
       placeholder="Ingrese el lugar de nacimiento"
       :error="errors.birth_place"
@@ -90,7 +94,8 @@ defineProps({
 
     <BaseInput
       v-if="form.has_disability === true"
-      v-model="form.conadis_rui"
+      :modelValue="form.conadis_rui"
+      @update:modelValue="form.conadis_rui = toUpper($event)"
       label="CONADIS RUI"
       placeholder="Ingrese el código CONADIS"
       :error="errors.conadis_rui"
