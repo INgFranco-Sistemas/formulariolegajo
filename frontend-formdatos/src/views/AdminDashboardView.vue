@@ -6,13 +6,51 @@ import BaseButton from '../components/base/BaseButton.vue'
 import BaseInput from '../components/base/BaseInput.vue'
 import { useAdminAuthStore } from '../stores/adminAuthStore'
 import { useAdminEmployeeFormStore } from '../stores/adminEmployeeFormStore'
+import AdminOpenLegajoModal from '../components/form/AdminOpenLegajoModal.vue'
+import { useAdminLegajoStore } from '../stores/adminLegajoStore'
 
 const router = useRouter()
 const authStore = useAdminAuthStore()
 const formsStore = useAdminEmployeeFormStore()
 
+const legajoStore = useAdminLegajoStore()
+
+const openLegajoModal = ref(false)
+const selectedEmployeeForLegajo = ref(null)
+
 const searchInput = ref(formsStore.filters.search)
+let searchTimeout = null
 const flashMessage = ref('')
+
+const handleOpenLegajoModal = (employee) => {
+    if (employee.legajo) {
+        return
+    }
+
+    legajoStore.clearCreateMessages()
+    selectedEmployeeForLegajo.value = employee
+    openLegajoModal.value = true
+}
+
+const handleCloseLegajoModal = () => {
+    openLegajoModal.value = false
+    selectedEmployeeForLegajo.value = null
+    legajoStore.clearCreateMessages()
+}
+
+const handleCreateLegajo = async (payload) => {
+    const result = await legajoStore.createLegajo(payload)
+
+    if (result.success) {
+        sessionStorage.setItem(
+        'admin_forms_success_message',
+        result.message || 'Legajo aperturado correctamente.'
+        )
+
+        handleCloseLegajoModal()
+        await formsStore.fetchForms()
+    }
+}
 
 const handleLogout = async () => {
     await authStore.logout()
@@ -29,6 +67,8 @@ const handleSearch = async () => {
 }
 
 const handleClearSearch = async () => {
+    clearTimeout(searchTimeout)
+
     searchInput.value = ''
     formsStore.setSearch('')
     await formsStore.fetchForms()
@@ -53,17 +93,19 @@ onMounted(async () => {
     await formsStore.fetchForms()
 })
 
-watch(
-    () => formsStore.filters.per_page,
-    async () => {
+watch(searchInput, (value) => {
+    clearTimeout(searchTimeout)
+
+    searchTimeout = setTimeout(async () => {
+        formsStore.setSearch(value)
         await formsStore.fetchForms()
-    }
-)
+    }, 500)
+})
 </script>
 
 <template>
     <main class="min-h-screen bg-slate-100">
-        <section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <section class="mx-auto max-w-[150rem] px-4 py-8 sm:px-6 lg:px-8">
         <div class="rounded-[2rem] bg-white p-8 shadow-xl ring-1 ring-slate-200">
             <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
@@ -84,6 +126,10 @@ watch(
                     {{ formsStore.exportLoading ? 'Generando Excel...' : 'Excel' }}
                     </BaseButton>
 
+                    <BaseButton variant="secondary" @click="router.push('/admin/legajos')">
+                        Legajos Escalafonarios
+                    </BaseButton>
+
                     <BaseButton variant="secondary" @click="handleLogout">
                     Cerrar sesión
                     </BaseButton>
@@ -101,7 +147,7 @@ watch(
                 <BaseInput
                     v-model="searchInput"
                     label="Buscar ficha"
-                    placeholder="Buscar por DNI, nombre o correo"
+                    placeholder="Buscar por DNI, nombre, correo o dependencia"
                 />
 
                 <div class="self-end">
@@ -178,6 +224,9 @@ watch(
                         Régimen laboral
                     </th>
                     <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        Dependencia actual
+                    </th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Fecha registro
                     </th>
                     <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
@@ -208,17 +257,28 @@ watch(
                         {{ item.labor_regime?.name || '-' }}
                     </td>
                     <td class="px-4 py-4 text-sm text-slate-700">
+                        {{ item.dependency?.name || '-' }}
+                    </td>
+                    <td class="px-4 py-4 text-sm text-slate-700">
                         {{ item.created_at ? new Date(item.created_at).toLocaleString() : '-' }}
                     </td>
                     <td class="px-4 py-4">
-                        <div class="flex gap-2">
-                        <BaseButton variant="secondary" @click="handleView(item.id)">
-                            Ver
-                        </BaseButton>
+                        <div class="flex flex-wrap gap-2">
+                            <BaseButton variant="secondary" @click="handleView(item.id)">
+                                Ver
+                            </BaseButton>
 
-                        <BaseButton @click="handleEdit(item.id)">
-                            Editar
-                        </BaseButton>
+                            <BaseButton @click="handleEdit(item.id)">
+                                Editar
+                            </BaseButton>
+
+                            <BaseButton
+                                variant="secondary"
+                                :disabled="!!item.legajo"
+                                @click="handleOpenLegajoModal(item)"
+                            >
+                                {{ item.legajo ? 'Legajo aperturado' : 'Aperturar legajo' }}
+                            </BaseButton>
                         </div>
                     </td>
                     </tr>
@@ -256,11 +316,20 @@ watch(
         </section>
 
         <AdminEmployeeFormDetailModal
-        :open="formsStore.detailOpen"
-        :loading="formsStore.detailLoading"
-        :error="formsStore.detailError"
-        :item="formsStore.selectedItem"
-        @close="formsStore.closeDetail()"
+            :open="formsStore.detailOpen"
+            :loading="formsStore.detailLoading"
+            :error="formsStore.detailError"
+            :item="formsStore.selectedItem"
+            @close="formsStore.closeDetail()"
+        />
+
+        <AdminOpenLegajoModal
+            :open="openLegajoModal"
+            :employee="selectedEmployeeForLegajo"
+            :loading="legajoStore.createLoading"
+            :error="legajoStore.createError"
+            @close="handleCloseLegajoModal"
+            @submit="handleCreateLegajo"
         />
     </main>
 </template>

@@ -28,6 +28,7 @@ class AdminEmployeeFormController extends Controller
                 'laborRegime:id,name,code',
                 'pensionRegime:id,name,code',
                 'dependency:id,name,code',
+                'legajo:id,employee_form_id,legajo_number,status',
             ])
             ->latest('id');
 
@@ -35,10 +36,13 @@ class AdminEmployeeFormController extends Controller
             $search = trim($request->search);
 
             $query->where(function ($q) use ($search) {
-                $q->where('full_name', 'ilike', "%{$search}%")
-                    ->orWhere('dni', 'ilike', "%{$search}%")
+                $q->where('dni', 'ilike', "%{$search}%")
+                    ->orWhere('full_name', 'ilike', "%{$search}%")
                     ->orWhere('personal_email', 'ilike', "%{$search}%")
-                    ->orWhere('institutional_email', 'ilike', "%{$search}%");
+                    ->orWhere('institutional_email', 'ilike', "%{$search}%")
+                    ->orWhereHas('dependency', function ($dependencyQuery) use ($search) {
+                        $dependencyQuery->where('name', 'ilike', "%{$search}%");
+                    });
             });
         }
 

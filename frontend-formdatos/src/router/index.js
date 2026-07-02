@@ -2,33 +2,48 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import AdminDashboardView from '../views/AdminDashboardView.vue'
+import AdminEmployeeFormEditView from '../views/AdminEmployeeFormEditView.vue'
 import { useAdminAuthStore } from '../stores/adminAuthStore'
+import AdminLegajosView from '../views/AdminLegajosView.vue'
+import AdminLegajoDetailView from '../views/AdminLegajoDetailView.vue'
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-        path: '/',
-        name: 'home',
-        component: HomeView,
+            path: '/',
+            name: 'home',
+            component: HomeView,
         },
         {
-        path: '/login',
-        name: 'login',
-        component: LoginView,
-        meta: { guestOnly: true },
+            path: '/login',
+            name: 'login',
+            component: LoginView,
+            meta: { guestOnly: true },
         },
         {
-        path: '/admin',
-        name: 'admin-dashboard',
-        component: AdminDashboardView,
-        meta: { requiresAdminAuth: true },
+            path: '/admin',
+            name: 'admin-dashboard',
+            component: AdminDashboardView,
+            meta: { requiresAdminAuth: true },
         },
         {
-        path: '/admin/employee-forms/:id/edit',
-        name: 'admin-employee-form-edit',
-        component: () => import('../views/AdminEmployeeFormEditView.vue'),
-        meta: { requiresAdminAuth: true },
+            path: '/admin/employee-forms/:id/edit',
+            name: 'admin-employee-form-edit',
+            component: () => import('../views/AdminEmployeeFormEditView.vue'),
+            meta: { requiresAdminAuth: true },
+        },
+        {
+            path: '/admin/legajos',
+            name: 'admin-legajos',
+            component: AdminLegajosView,
+            meta: { requiresAdminAuth: true },
+        },
+        {
+            path: '/admin/legajos/:id',
+            name: 'admin-legajo-detail',
+            component: AdminLegajoDetailView,
+            meta: { requiresAdminAuth: true },
         },
     ],
 })

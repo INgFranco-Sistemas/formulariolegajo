@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class EmployeeForm extends Model
 {
@@ -105,5 +106,10 @@ class EmployeeForm extends Model
     public function dependency(): BelongsTo
     {
         return $this->belongsTo(Dependency::class);
+    }
+
+    public function legajo(): HasOne
+    {
+        return $this->hasOne(Legajo::class);
     }
 }
