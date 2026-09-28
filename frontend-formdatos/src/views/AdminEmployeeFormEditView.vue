@@ -291,8 +291,32 @@ onMounted(async () => {
                             :options="pensionRegimeOptions" placeholder="Seleccione régimen pensionario"
                             :error="formsStore.editErrors.pension_regime_id" />
 
-                        <BaseInput v-model="form.airshsp_code" label="Código AIRSHSP" placeholder="Ingrese código"
-                            :error="formsStore.editErrors.airshsp_code" />
+                        <BaseSelect
+                            v-model="form.has_professional_license"
+                            label="¿Tiene colegiatura?"
+                            :options="[
+                                { id: true, name: 'Sí' },
+                                { id: false, name: 'No' }
+                            ]"
+                            placeholder="Seleccione una opción"
+                            :error="formsStore.editErrors.has_professional_license"
+                        />
+
+                        <BaseInput
+                            v-if="form.has_professional_license === true"
+                            v-model="form.professional_license_number"
+                            label="N.º de colegiatura"
+                            placeholder="Ingrese el número de colegiatura"
+                            :error="formsStore.editErrors.professional_license_number"
+                        />
+
+                        <BaseInput
+                            v-if="form.has_professional_license === true"
+                            v-model="form.professional_license_valid_until"
+                            type="date"
+                            label="Vigente / habilitado hasta"
+                            :error="formsStore.editErrors.professional_license_valid_until"
+                        />
 
                         <BaseInput v-model="form.institutional_email" type="email" label="Correo institucional"
                             placeholder="Ingrese correo institucional"

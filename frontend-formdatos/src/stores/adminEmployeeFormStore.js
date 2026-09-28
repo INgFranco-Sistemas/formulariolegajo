@@ -140,7 +140,9 @@ export const useAdminEmployeeFormStore = defineStore('adminEmployeeForms', () =>
         labor_regime_id: item.labor_regime_id ?? '',
         labor_condition: item.labor_condition ?? '',
         pension_regime_id: item.pension_regime_id ?? '',
-        airshsp_code: item.airshsp_code ?? '',
+        has_professional_license: item.has_professional_license ?? false,
+        professional_license_number: item.professional_license_number ?? '',
+        professional_license_valid_until: formatDateForInput(item.professional_license_valid_until),
         institutional_email: item.institutional_email ?? '',
         has_labor_link: item.has_labor_link ?? true,
         labor_end_date: formatDateForInput(item.labor_end_date),
@@ -166,17 +168,28 @@ export const useAdminEmployeeFormStore = defineStore('adminEmployeeForms', () =>
         if (!editItem.value) return null
 
         return {
-        ...editItem.value,
-        sex_id: editItem.value.sex_id ? Number(editItem.value.sex_id) : null,
-        marital_status_id: editItem.value.marital_status_id ? Number(editItem.value.marital_status_id) : null,
-        labor_regime_id: editItem.value.labor_regime_id ? Number(editItem.value.labor_regime_id) : null,
-        pension_regime_id: editItem.value.pension_regime_id ? Number(editItem.value.pension_regime_id) : null,
-        family_members: (editItem.value.family_members ?? []).map((member) => ({
-            ...member,
-            age: member.age !== '' ? Number(member.age) : null,
-            sex_id: member.sex_id ? Number(member.sex_id) : null,
-            relationship_id: member.relationship_id ? Number(member.relationship_id) : null,
-        })),
+            ...editItem.value,
+            has_professional_license: Boolean(editItem.value.has_professional_license),
+
+            professional_license_number:
+                editItem.value.has_professional_license === true
+                    ? editItem.value.professional_license_number?.trim() || null
+                    : null,
+
+            professional_license_valid_until:
+                editItem.value.has_professional_license === true
+                    ? editItem.value.professional_license_valid_until || null
+                    : null,
+            sex_id: editItem.value.sex_id ? Number(editItem.value.sex_id) : null,
+            marital_status_id: editItem.value.marital_status_id ? Number(editItem.value.marital_status_id) : null,
+            labor_regime_id: editItem.value.labor_regime_id ? Number(editItem.value.labor_regime_id) : null,
+            pension_regime_id: editItem.value.pension_regime_id ? Number(editItem.value.pension_regime_id) : null,
+            family_members: (editItem.value.family_members ?? []).map((member) => ({
+                ...member,
+                age: member.age !== '' ? Number(member.age) : null,
+                sex_id: member.sex_id ? Number(member.sex_id) : null,
+                relationship_id: member.relationship_id ? Number(member.relationship_id) : null,
+            })),
         }
     }
 

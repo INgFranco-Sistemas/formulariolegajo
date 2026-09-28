@@ -104,7 +104,22 @@ const formatBoolean = (value) => {
                     <p><span class="font-semibold">Régimen laboral:</span> {{ item.labor_regime?.name || '-' }}</p>
                     <p><span class="font-semibold">Condición laboral:</span> {{ item.labor_condition || '-' }}</p>
                     <p><span class="font-semibold">Régimen pensionario:</span> {{ item.pension_regime?.name || '-' }}</p>
-                    <p><span class="font-semibold">Código AIRSHSP:</span> {{ item.airshsp_code || '-' }}</p>
+                    <p>
+                        <span class="font-semibold">¿Tiene colegiatura?:</span>
+                        {{ item.has_professional_license ? 'Sí' : 'No' }}
+                    </p>
+
+                    <template v-if="item.has_professional_license">
+                        <p>
+                            <span class="font-semibold">N.º de colegiatura:</span>
+                            {{ item.professional_license_number || '-' }}
+                        </p>
+
+                        <p>
+                            <span class="font-semibold">Vigente / habilitado hasta:</span>
+                            {{ item.professional_license_valid_until || '-' }}
+                        </p>
+                    </template>
                     <p><span class="font-semibold">Correo institucional:</span> {{ item.institutional_email || '-' }}</p>
                     <p><span class="font-semibold">¿Tiene vínculo laboral?:</span> {{ formatBoolean(item.has_labor_link) }}</p>
                     <p><span class="font-semibold">Fecha fin de vínculo:</span> {{ item.labor_end_date || '-' }}</p>

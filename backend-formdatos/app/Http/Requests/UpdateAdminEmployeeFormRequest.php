@@ -94,7 +94,24 @@ class UpdateAdminEmployeeFormRequest extends FormRequest
             ],
             'pension_regime_id' => ['required', 'integer', 'exists:pension_regimes,id'],
 
-            'airshsp_code' => ['nullable', 'string', 'max:50'],
+            'has_professional_license' => [
+                'required',
+                'boolean',
+            ],
+
+            'professional_license_number' => [
+                'nullable',
+                'string',
+                'max:100',
+                Rule::requiredIf(fn () => $this->boolean('has_professional_license')),
+            ],
+
+            'professional_license_valid_until' => [
+                'nullable',
+                'date',
+                Rule::requiredIf(fn () => $this->boolean('has_professional_license')),
+            ],
+
             'institutional_email' => ['nullable', 'email', 'max:150'],
 
             'has_labor_link' => ['required', 'boolean'],
