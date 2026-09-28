@@ -62,7 +62,30 @@ class StoreEmployeeFormRequest extends FormRequest
             'employment_start_date' => ['required', 'date'],
 
             'labor_regime_id' => ['required', 'integer', 'exists:labor_regimes,id'],
-            'labor_condition' => ['nullable', 'string', 'max:150'],
+            'labor_condition' => [
+                'required',
+                'string',
+                Rule::in([
+                    'CAS CONFIANZA',
+                    'CAS INDETERMINADO',
+                    'CAS TEMPORAL',
+                    'CAS SUPLENCIA',
+                    'CAS MEDIDA CAUTELAR',
+                    'NOMBRADO',
+                    'TEMPORAL',
+                    'SUPLENCIA',
+                    'CONFIANZA',
+                    'MANDATO JUDICIAL',
+                    'CARGO PROYECTO DE INVERSION',
+                    'SERVIR',
+                    'GOBERNADOR',
+                    'VICE GOBERNADOR',
+                    'CONSEJERO DELEGADO',
+                    'CONSEJERO REGIONAL',
+                    'PRACTICANTE',
+                    'TITULAR',
+                ]),
+            ],
             'pension_regime_id' => ['required', 'integer', 'exists:pension_regimes,id'],
 
             'airshsp_code' => ['nullable', 'string', 'max:50'],
@@ -130,6 +153,10 @@ class StoreEmployeeFormRequest extends FormRequest
 
             'profession.required' => 'La profesión es obligatoria.',
             'current_position.required' => 'El cargo actual es obligatorio.',
+
+            'labor_condition.required' => 'Debe seleccionar la condición laboral.',
+            'labor_condition.in' => 'La condición laboral seleccionada no es válida.',
+
             'dependency_id.required' => 'Debe seleccionar la dependencia actual.',
             'dependency_id.exists' => 'La dependencia seleccionada no es válida.',
             'contract_resolution_number.required' => 'El contrato o resolución es obligatorio.',

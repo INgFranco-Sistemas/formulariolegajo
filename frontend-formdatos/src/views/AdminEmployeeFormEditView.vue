@@ -44,6 +44,27 @@ const academicEducationOptions = [
     { id: 'INCONCLUSO', name: 'INCONCLUSO' },
 ]
 
+const laborConditionOptions = [
+    { id: 'CAS CONFIANZA', name: 'CAS CONFIANZA' },
+    { id: 'CAS INDETERMINADO', name: 'CAS INDETERMINADO' },
+    { id: 'CAS TEMPORAL', name: 'CAS TEMPORAL' },
+    { id: 'CAS SUPLENCIA', name: 'CAS SUPLENCIA' },
+    { id: 'CAS MEDIDA CAUTELAR', name: 'CAS MEDIDA CAUTELAR' },
+    { id: 'NOMBRADO', name: 'NOMBRADO' },
+    { id: 'TEMPORAL', name: 'TEMPORAL' },
+    { id: 'SUPLENCIA', name: 'SUPLENCIA' },
+    { id: 'CONFIANZA', name: 'CONFIANZA' },
+    { id: 'MANDATO JUDICIAL', name: 'MANDATO JUDICIAL' },
+    { id: 'CARGO PROYECTO DE INVERSION', name: 'CARGO PROYECTO DE INVERSION' },
+    { id: 'SERVIR', name: 'SERVIR' },
+    { id: 'GOBERNADOR', name: 'GOBERNADOR' },
+    { id: 'VICE GOBERNADOR', name: 'VICE GOBERNADOR' },
+    { id: 'CONSEJERO DELEGADO', name: 'CONSEJERO DELEGADO' },
+    { id: 'CONSEJERO REGIONAL', name: 'CONSEJERO REGIONAL' },
+    { id: 'PRACTICANTE', name: 'PRACTICANTE' },
+    { id: 'TITULAR', name: 'TITULAR' },
+]
+
 const addFamilyMember = () => {
     if (!formsStore.editItem) return
 
@@ -262,8 +283,9 @@ onMounted(async () => {
                         <BaseSelect v-model="form.labor_regime_id" label="Régimen laboral" :options="laborRegimeOptions"
                             placeholder="Seleccione régimen laboral" :error="formsStore.editErrors.labor_regime_id" />
 
-                        <BaseInput v-model="form.labor_condition" label="Condición laboral"
-                            placeholder="Ingrese condición laboral" :error="formsStore.editErrors.labor_condition" />
+                        <BaseSelect v-model="form.labor_condition" label="Condición laboral"
+                            :options="laborConditionOptions" placeholder="Seleccione la condición laboral"
+                            :error="formsStore.editErrors.labor_condition" />
 
                         <BaseSelect v-model="form.pension_regime_id" label="Régimen pensionario"
                             :options="pensionRegimeOptions" placeholder="Seleccione régimen pensionario"
