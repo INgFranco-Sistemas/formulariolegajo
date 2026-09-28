@@ -38,7 +38,9 @@ class EmployeeForm extends Model
         'labor_regime_id',
         'labor_condition',
         'pension_regime_id',
-        'airshsp_code',
+        'has_professional_license',
+        'professional_license_number',
+        'professional_license_valid_until',
         'institutional_email',
         'has_labor_link',
         'labor_end_date',
@@ -77,6 +79,8 @@ class EmployeeForm extends Model
         'labor_end_date' => 'date',
         'is_parent' => 'boolean',
         'submitted_at' => 'datetime',
+        'has_professional_license' => 'boolean',
+        'professional_license_valid_until' => 'date',
     ];
 
     public function sex(): BelongsTo

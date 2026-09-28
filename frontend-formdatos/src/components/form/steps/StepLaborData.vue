@@ -132,12 +132,32 @@ const laborConditionOptions = [
       :error="errors.pension_regime_id"
     />
 
+    <BaseSelect
+      v-model="form.has_professional_license"
+      label="¿Tiene colegiatura?"
+      :options="[
+        { id: true, name: 'Sí' },
+        { id: false, name: 'No' }
+      ]"
+      placeholder="Seleccione una opción"
+      :error="errors.has_professional_license"
+    />
+
     <BaseInput
-      :modelValue="form.airshsp_code"
-      @update:modelValue="form.airshsp_code = toUpper($event)"
-      label="Código AIRSHSP"
-      placeholder="Ingrese el código"
-      :error="errors.airshsp_code"
+      v-if="form.has_professional_license === true"
+      :modelValue="form.professional_license_number"
+      @update:modelValue="form.professional_license_number = toUpper($event)"
+      label="N.º de colegiatura"
+      placeholder="Ingrese el número de colegiatura"
+      :error="errors.professional_license_number"
+    />
+
+    <BaseInput
+      v-if="form.has_professional_license === true"
+      v-model="form.professional_license_valid_until"
+      type="date"
+      label="Vigente / habilitado hasta"
+      :error="errors.professional_license_valid_until"
     />
 
     <BaseInput

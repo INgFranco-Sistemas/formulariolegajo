@@ -42,7 +42,9 @@ export const useFormStore = defineStore('form', () => {
     labor_regime_id: '',
     labor_condition: '',
     pension_regime_id: '',
-    airshsp_code: '',
+    has_professional_license: false,
+    professional_license_number: '',
+    professional_license_valid_until: '',
     institutional_email: '',
     has_labor_link: true,
     labor_end_date: '',
@@ -215,6 +217,32 @@ export const useFormStore = defineStore('form', () => {
       setError('pension_regime_id', 'Debe seleccionar el régimen pensionario.')
     }
 
+    if (
+      form.value.has_professional_license === '' ||
+      form.value.has_professional_license === null
+    ) {
+      setError(
+        'has_professional_license',
+        'Debe indicar si tiene colegiatura.'
+      )
+    }
+
+    if (form.value.has_professional_license === true) {
+      if (!form.value.professional_license_number?.trim()) {
+        setError(
+          'professional_license_number',
+          'El número de colegiatura es obligatorio.'
+        )
+      }
+
+      if (!form.value.professional_license_valid_until) {
+        setError(
+          'professional_license_valid_until',
+          'Debe indicar hasta cuándo está vigente o habilitada la colegiatura.'
+        )
+      }
+    }
+
     if (form.value.institutional_email && !isEmailValid(form.value.institutional_email)) {
       setError('institutional_email', 'El correo institucional no tiene un formato válido.')
     }
@@ -384,6 +412,32 @@ export const useFormStore = defineStore('form', () => {
       tempSetError('pension_regime_id', 'Debe seleccionar el régimen pensionario.')
     }
 
+    if (
+      form.value.has_professional_license === '' ||
+      form.value.has_professional_license === null
+    ) {
+      tempSetError(
+        'has_professional_license',
+        'Debe indicar si tiene colegiatura.'
+      )
+    }
+
+    if (form.value.has_professional_license === true) {
+      if (!form.value.professional_license_number?.trim()) {
+        tempSetError(
+          'professional_license_number',
+          'El número de colegiatura es obligatorio.'
+        )
+      }
+
+      if (!form.value.professional_license_valid_until) {
+        tempSetError(
+          'professional_license_valid_until',
+          'Debe indicar hasta cuándo está vigente o habilitada la colegiatura.'
+        )
+      }
+    }
+
     if (form.value.institutional_email && !isEmailValid(form.value.institutional_email)) {
       tempSetError('institutional_email', 'El correo institucional no tiene un formato válido.')
     }
@@ -458,11 +512,25 @@ export const useFormStore = defineStore('form', () => {
   const normalizePayload = () => {
     return {
       ...form.value,
+
+      has_professional_license: Boolean(form.value.has_professional_license),
+
+      professional_license_number:
+        form.value.has_professional_license === true
+          ? form.value.professional_license_number?.trim() || null
+          : null,
+
+      professional_license_valid_until:
+        form.value.has_professional_license === true
+          ? form.value.professional_license_valid_until || null
+          : null,
+
       sex_id: form.value.sex_id ? Number(form.value.sex_id) : null,
       marital_status_id: form.value.marital_status_id ? Number(form.value.marital_status_id) : null,
       dependency_id: form.value.dependency_id ? Number(form.value.dependency_id) : null,
       labor_regime_id: form.value.labor_regime_id ? Number(form.value.labor_regime_id) : null,
       pension_regime_id: form.value.pension_regime_id ? Number(form.value.pension_regime_id) : null,
+
       family_members: form.value.family_members.map((member) => ({
         ...member,
         age: member.age !== '' ? Number(member.age) : null,
@@ -492,6 +560,7 @@ export const useFormStore = defineStore('form', () => {
       personal_email: '',
       emergency_contact_name: '',
       emergency_contact_phone: '',
+      academic_education: '',
       profession: '',
       current_position: '',
       dependency_id: '',
@@ -501,7 +570,9 @@ export const useFormStore = defineStore('form', () => {
       labor_regime_id: '',
       labor_condition: '',
       pension_regime_id: '',
-      airshsp_code: '',
+      has_professional_license: false,
+      professional_license_number: '',
+      professional_license_valid_until: '',
       institutional_email: '',
       has_labor_link: true,
       labor_end_date: '',
@@ -576,7 +647,9 @@ export const useFormStore = defineStore('form', () => {
           backendErrors.labor_regime_id ||
           backendErrors.labor_condition ||
           backendErrors.pension_regime_id ||
-          backendErrors.airshsp_code ||
+          backendErrors.has_professional_license ||
+          backendErrors.professional_license_number ||
+          backendErrors.professional_license_valid_until ||
           backendErrors.institutional_email ||
           backendErrors.has_labor_link ||
           backendErrors.labor_end_date

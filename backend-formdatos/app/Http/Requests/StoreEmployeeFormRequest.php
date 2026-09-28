@@ -88,7 +88,21 @@ class StoreEmployeeFormRequest extends FormRequest
             ],
             'pension_regime_id' => ['required', 'integer', 'exists:pension_regimes,id'],
 
-            'airshsp_code' => ['nullable', 'string', 'max:50'],
+            'has_professional_license' => ['required', 'boolean'],
+
+            'professional_license_number' => [
+                'nullable',
+                'string',
+                'max:100',
+                Rule::requiredIf(fn() => $this->boolean('has_professional_license')),
+            ],
+
+            'professional_license_valid_until' => [
+                'nullable',
+                'date',
+                Rule::requiredIf(fn() => $this->boolean('has_professional_license')),
+            ],
+            
             'institutional_email' => ['nullable', 'email', 'max:150'],
 
             'has_labor_link' => ['required', 'boolean'],
@@ -167,6 +181,14 @@ class StoreEmployeeFormRequest extends FormRequest
 
             'pension_regime_id.required' => 'Debe seleccionar el régimen pensionario.',
             'pension_regime_id.exists' => 'El régimen pensionario seleccionado no es válido.',
+
+            'has_professional_license.required' => 'Debe indicar si tiene colegiatura.',
+            'has_professional_license.boolean' => 'La opción de colegiatura no es válida.',
+
+            'professional_license_number.required' => 'El número de colegiatura es obligatorio cuando indica que sí tiene colegiatura.',
+
+            'professional_license_valid_until.required' => 'La fecha de vigencia es obligatoria cuando indica que sí tiene colegiatura.',
+            'professional_license_valid_until.date' => 'La fecha de vigencia de la colegiatura no es válida.',
 
             'institutional_email.email' => 'El correo institucional no tiene un formato válido.',
 
