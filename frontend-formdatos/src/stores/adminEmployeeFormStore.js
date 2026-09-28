@@ -130,6 +130,7 @@ export const useAdminEmployeeFormStore = defineStore('adminEmployeeForms', () =>
         personal_email: item.personal_email ?? '',
         emergency_contact_name: item.emergency_contact_name ?? '',
         emergency_contact_phone: item.emergency_contact_phone ?? '',
+        academic_education: item.academic_education ?? '',
         profession: item.profession ?? '',
         current_position: item.current_position ?? '',
         dependency_id: item.dependency_id ?? item.dependency?.id ?? '',

@@ -46,6 +46,20 @@ class UpdateAdminEmployeeFormRequest extends FormRequest
             'emergency_contact_name' => ['required', 'string', 'max:255'],
             'emergency_contact_phone' => ['required', 'string', 'max:20'],
 
+            'academic_education' => [
+                'required',
+                'string',
+                Rule::in([
+                    'TITULO UNIVERSITARIO',
+                    'BACHILLER',
+                    'EGRESADO UNIVERSITARIO',
+                    'TITULADO TECNICO',
+                    'EGRESADO TECNICO',
+                    'ESTUDIANTE',
+                    'INCONCLUSO',
+                ]),
+            ],
+
             'profession' => ['required', 'string', 'max:255'],
             'current_position' => ['required', 'string', 'max:255'],
             'dependency_id' => ['required', 'integer', 'exists:dependencies,id'],

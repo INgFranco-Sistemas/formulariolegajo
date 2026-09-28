@@ -34,6 +34,16 @@ const pensionRegimeOptions = computed(() => catalogStore.pensionRegimes)
 const relationshipOptions = computed(() => catalogStore.familyRelationships)
 const dependencyOptions = computed(() => catalogStore.dependencies)
 
+const academicEducationOptions = [
+    { id: 'TITULO UNIVERSITARIO', name: 'TITULO UNIVERSITARIO' },
+    { id: 'BACHILLER', name: 'BACHILLER' },
+    { id: 'EGRESADO UNIVERSITARIO', name: 'EGRESADO UNIVERSITARIO' },
+    { id: 'TITULADO TECNICO', name: 'TITULADO TECNICO' },
+    { id: 'EGRESADO TECNICO', name: 'EGRESADO TECNICO' },
+    { id: 'ESTUDIANTE', name: 'ESTUDIANTE' },
+    { id: 'INCONCLUSO', name: 'INCONCLUSO' },
+]
+
 const addFamilyMember = () => {
     if (!formsStore.editItem) return
 
@@ -216,21 +226,27 @@ onMounted(async () => {
                     <h2 class="mb-6 text-2xl font-bold text-slate-900">Datos laborales</h2>
 
                     <div class="grid gap-5 md:grid-cols-2">
+                        <BaseSelect
+                            v-model="form.academic_education"
+                            label="Formación académica"
+                            :options="academicEducationOptions"
+                            placeholder="Seleccione la formación académica"
+                            :error="formsStore.editErrors.academic_education"
+                        />
+
                         <BaseInput v-model="form.profession" label="Profesión" placeholder="Ingrese profesión"
                             :error="formsStore.editErrors.profession" />
 
                         <BaseInput v-model="form.current_position" label="Cargo actual" placeholder="Ingrese cargo"
                             :error="formsStore.editErrors.current_position" />
 
-                        <div class="md:col-span-2">
-                            <BaseSelect
-                                v-model="form.dependency_id"
-                                label="Dependencia actual"
-                                :options="dependencyOptions"
-                                placeholder="Seleccione la dependencia actual"
-                                :error="formsStore.editErrors.dependency_id"
-                            />
-                        </div>
+                        <BaseSelect
+                            v-model="form.dependency_id"
+                            label="Dependencia actual"
+                            :options="dependencyOptions"
+                            placeholder="Seleccione la dependencia actual"
+                            :error="formsStore.editErrors.dependency_id"
+                        />
 
                         <BaseInput v-model="form.contract_resolution_number" label="Contrato o Resolución"
                             placeholder="Ingrese contrato o resolución"

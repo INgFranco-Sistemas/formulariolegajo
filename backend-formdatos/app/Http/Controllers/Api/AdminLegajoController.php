@@ -125,8 +125,9 @@ class AdminLegajoController extends Controller
         ])->findOrFail($id);
 
         $sections = \App\Models\LegajoSection::where('is_active', true)
-            ->orderBy('number')
-            ->get();
+        ->where('number', '<=', 10)
+        ->orderBy('number')
+        ->get();
 
         return response()->json([
             'success' => true,

@@ -28,6 +28,7 @@ class EmployeeForm extends Model
         'personal_email',
         'emergency_contact_name',
         'emergency_contact_phone',
+        'academic_education',
         'profession',
         'current_position',
         'dependency_id',

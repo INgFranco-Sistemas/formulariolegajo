@@ -95,18 +95,19 @@ const formatBoolean = (value) => {
             <section class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
                 <h3 class="mb-4 text-lg font-bold text-slate-900">Datos laborales</h3>
                 <div class="space-y-2 text-sm text-slate-700">
-                <p><span class="font-semibold">Profesión:</span> {{ item.profession || '-' }}</p>
-                <p><span class="font-semibold">Cargo actual:</span> {{ item.current_position || '-' }}</p>
-                <p><span class="font-semibold">Dependencia actual:</span> {{ item.dependency?.name || '-' }}</p>
-                <p><span class="font-semibold">Contrato o resolución:</span> {{ item.contract_resolution_number || '-' }}</p>
-                <p><span class="font-semibold">Fecha de vínculo:</span> {{ item.employment_start_date || '-' }}</p>
-                <p><span class="font-semibold">Régimen laboral:</span> {{ item.labor_regime?.name || '-' }}</p>
-                <p><span class="font-semibold">Condición laboral:</span> {{ item.labor_condition || '-' }}</p>
-                <p><span class="font-semibold">Régimen pensionario:</span> {{ item.pension_regime?.name || '-' }}</p>
-                <p><span class="font-semibold">Código AIRSHSP:</span> {{ item.airshsp_code || '-' }}</p>
-                <p><span class="font-semibold">Correo institucional:</span> {{ item.institutional_email || '-' }}</p>
-                <p><span class="font-semibold">¿Tiene vínculo laboral?:</span> {{ formatBoolean(item.has_labor_link) }}</p>
-                <p><span class="font-semibold">Fecha fin de vínculo:</span> {{ item.labor_end_date || '-' }}</p>
+                    <p><span class="font-semibold">Formación académica:</span>{{ item.academic_education || '-' }}</p>
+                    <p><span class="font-semibold">Profesión:</span> {{ item.profession || '-' }}</p>
+                    <p><span class="font-semibold">Cargo actual:</span> {{ item.current_position || '-' }}</p>
+                    <p><span class="font-semibold">Dependencia actual:</span> {{ item.dependency?.name || '-' }}</p>
+                    <p><span class="font-semibold">Contrato o resolución:</span> {{ item.contract_resolution_number || '-' }}</p>
+                    <p><span class="font-semibold">Fecha de vínculo:</span> {{ item.employment_start_date || '-' }}</p>
+                    <p><span class="font-semibold">Régimen laboral:</span> {{ item.labor_regime?.name || '-' }}</p>
+                    <p><span class="font-semibold">Condición laboral:</span> {{ item.labor_condition || '-' }}</p>
+                    <p><span class="font-semibold">Régimen pensionario:</span> {{ item.pension_regime?.name || '-' }}</p>
+                    <p><span class="font-semibold">Código AIRSHSP:</span> {{ item.airshsp_code || '-' }}</p>
+                    <p><span class="font-semibold">Correo institucional:</span> {{ item.institutional_email || '-' }}</p>
+                    <p><span class="font-semibold">¿Tiene vínculo laboral?:</span> {{ formatBoolean(item.has_labor_link) }}</p>
+                    <p><span class="font-semibold">Fecha fin de vínculo:</span> {{ item.labor_end_date || '-' }}</p>
                 </div>
             </section>
 

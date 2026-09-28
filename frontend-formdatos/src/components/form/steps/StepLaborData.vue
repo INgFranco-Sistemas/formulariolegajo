@@ -26,10 +26,28 @@ defineProps({
     default: () => [],
   },
 })
+
+const academicEducationOptions = [
+  { id: 'TITULO UNIVERSITARIO', name: 'TÍTULO UNIVERSITARIO' },
+  { id: 'BACHILLER', name: 'BACHILLER' },
+  { id: 'EGRESADO UNIVERSITARIO', name: 'EGRESADO UNIVERSITARIO' },
+  { id: 'TITULADO TECNICO', name: 'TITULADO TÉCNICO' },
+  { id: 'EGRESADO TECNICO', name: 'EGRESADO TÉCNICO' },
+  { id: 'ESTUDIANTE', name: 'ESTUDIANTE' },
+  { id: 'INCONCLUSO', name: 'INCONCLUSO' },
+]
 </script>
 
 <template>
   <div class="grid gap-5 md:grid-cols-2">
+    <BaseSelect
+      v-model="form.academic_education"
+      label="Formación académica"
+      :options="academicEducationOptions"
+      placeholder="Seleccione la formación académica"
+      :error="errors.academic_education"
+    />
+
     <BaseInput
       :modelValue="form.profession"
       @update:modelValue="form.profession = toUpper($event)"
@@ -46,7 +64,6 @@ defineProps({
       :error="errors.current_position"
     />
 
-    <div class="md:col-span-2">
       <BaseSelect
         v-model="form.dependency_id"
         label="Dependencia actual"
@@ -54,7 +71,6 @@ defineProps({
         placeholder="Seleccione la dependencia actual"
         :error="errors.dependency_id"
       />
-    </div>
 
     <BaseInput
       :modelValue="form.contract_resolution_number"

@@ -37,16 +37,26 @@ defineProps({
     </div>
 
     <BaseInput
-      v-model="form.dni"
+      :modelValue="form.dni"
+      @update:modelValue="form.dni = String($event ?? '').replace(/\D/g, '').slice(0, 8)"
       label="DNI"
       placeholder="12345678"
+      type="text"
+      inputmode="numeric"
+      maxlength="8"
+      numericOnly
       :error="errors.dni"
     />
 
     <BaseInput
-      v-model="form.ruc"
+      :modelValue="form.ruc"
+      @update:modelValue="form.ruc = $event"
       label="RUC"
-      placeholder="Ingrese su RUC"
+      placeholder="Ingrese los 11 dígitos del RUC"
+      type="text"
+      inputmode="numeric"
+      maxlength="11"
+      numericOnly
       :error="errors.ruc"
     />
 

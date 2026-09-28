@@ -95,9 +95,14 @@ onMounted(async () => {
       />
 
       <BaseInput
-        v-model="form.cellphone"
+        :modelValue="form.cellphone"
+        @update:modelValue="form.cellphone = $event"
         label="Celular"
         placeholder="987654321"
+        type="text"
+        inputmode="numeric"
+        maxlength="9"
+        numericOnly
         :error="errors.cellphone"
       />
 
@@ -121,9 +126,14 @@ onMounted(async () => {
       />
 
       <BaseInput
-        v-model="form.emergency_contact_phone"
+        :modelValue="form.emergency_contact_phone"
+        @update:modelValue="form.emergency_contact_phone = $event"
         label="Celular de emergencia"
-        placeholder="Ingrese el celular del contacto"
+        placeholder="987654321"
+        type="text"
+        inputmode="numeric"
+        maxlength="9"
+        numericOnly
         :error="errors.emergency_contact_phone"
       />
     </div>
